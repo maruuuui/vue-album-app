@@ -3,25 +3,30 @@ import { ref, onMounted } from "vue";
 
 import Layout from "@/components/PageLayout.vue";
 import AlbumCards from "@/components/AlbumCards.vue";
+import type {Album} from "@/types";
 
-// リアクティブな状態
-const count = ref(0);
+const albumArray: Album[] = [
+  {
+    id: "bbbb",
+    title: "bbbb",
+    createdAt: "createdAt",
+    memo: "memo",
+    imagePath: "imagePath",
+  },
+  {
+    id: "aaaa",
+    title: "aaaa",
+    createdAt: "createdAt",
+    memo: "memo",
+    imagePath: "imagePath",
+  },
+];
 
-// 状態を変更し、更新をトリガーする関数。
-function increment() {
-  count.value++;
-}
-
-// ライフサイクルフック
-onMounted(() => {
-  console.log(`The initial count is ${count.value}.`);
-});
 </script>
 
 <template>
   <Layout>
-    <button @click="increment">Count is: {{ count }}</button>
-    <AlbumCards> </AlbumCards>
+    <AlbumCards :albumArray="albumArray"/>
   </Layout>
 </template>
 
