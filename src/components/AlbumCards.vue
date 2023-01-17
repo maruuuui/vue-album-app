@@ -12,17 +12,10 @@ const props = defineProps<Props>();
     <div class="row">
       <div
         class="col-xs-12 col-md-4 col-lg-3"
-        v-for="album in albumArray"
+        v-for="album in props.albumArray"
         :key="album.id"
       >
         <AlbumCard :album="album" />
-        <!-- <AlbumCard
-      :id="item.id"
-      :title="item.title"
-      :createdAt="item.createdAt"
-      :memo="item.memo"
-      :imagePath="item.imagePath"
-    /> -->
       </div>
     </div>
   </div>
