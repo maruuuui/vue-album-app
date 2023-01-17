@@ -3,6 +3,7 @@ import AlbumCard from "@/components/AlbumCard.vue";
 import type { Album } from "@/types";
 interface Props {
   albumArray: Album[];
+  openDeleteAlbumModal: (id: string, title: string) => void;
 }
 
 const props = defineProps<Props>();
@@ -15,7 +16,10 @@ const props = defineProps<Props>();
         v-for="album in props.albumArray"
         :key="album.id"
       >
-        <AlbumCard :album="album" />
+        <AlbumCard
+          :album="album"
+          :openDeleteAlbumModal="openDeleteAlbumModal"
+        />
       </div>
     </div>
   </div>

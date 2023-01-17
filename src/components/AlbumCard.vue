@@ -2,6 +2,7 @@
 import type { Album } from "@/types";
 interface Props {
   album: Album;
+  openDeleteAlbumModal: (id: string, title: string) => void;
 }
 
 const props = defineProps<Props>();
@@ -19,7 +20,12 @@ console.log(props.album.id);
         登録日時:{{ props.album.createdAt }}
       </h6>
       <p class="card-text">{{ props.album.memo }}</p>
-      <a href="#" class="btn btn-primary">削除する</a>
+      <a
+        href="#"
+        class="btn btn-primary"
+        @click="openDeleteAlbumModal(props.album.id, props.album.title)"
+        >削除する</a
+      >
     </div>
   </div>
 </template>
