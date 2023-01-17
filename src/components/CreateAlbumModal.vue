@@ -2,6 +2,14 @@
 import { createAlbum } from "@/util/albumApi";
 import { getContentType } from "@/util/image";
 
+interface Props {
+  startLoading: () => void;
+  stopLoading: () => void;
+  closeModal: () => void;
+}
+
+const props = defineProps<Props>();
+
 let title = "";
 let memo = "";
 let imageFileName = "";
@@ -26,8 +34,8 @@ function onfileInputChange() {
 
 //
 async function post() {
-  console.log("Album追加ボタンが押下されたよ");
   if (validate()) {
+    props.startLoading();
     try {
       await createAlbum(
         title,
@@ -36,8 +44,11 @@ async function post() {
         imageContentType,
         imageFileName
       );
+      props.stopLoading();
+      props.closeModal();
     } catch (error) {
       console.log(error);
+      props.stopLoading();
     }
   }
 }

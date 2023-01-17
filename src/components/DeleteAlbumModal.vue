@@ -5,14 +5,23 @@ import type { Ref } from "vue";
 interface Props {
   id: Ref<string>;
   title: Ref<string>;
+  startLoading: () => void;
+  stopLoading: () => void;
+  closeModal: () => void;
 }
 
 const props = defineProps<Props>();
 
 async function _deleteAlbum() {
-  console.log(props.id, props.title);
-
-  await deleteAlbum(props.id.value);
+  props.startLoading();
+  try {
+    await deleteAlbum(props.id.value);
+    props.closeModal();
+    props.stopLoading();
+  } catch (error) {
+    console.log(error);
+    props.stopLoading();
+  }
 }
 </script>
 
