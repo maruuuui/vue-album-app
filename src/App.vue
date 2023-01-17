@@ -3,34 +3,37 @@ import { ref, onMounted, type Ref } from "vue";
 import { Modal } from "bootstrap";
 
 import Layout from "@/components/PageLayout.vue";
+import CreateAlbumModal from "@/components/CreateAlbumModal.vue";
+import DeleteAlbumModal from "@/components/DeleteAlbumModal.vue";
+import LoadingModal from "@/components/LoadingModal.vue";
 import AlbumCards from "@/components/AlbumCards.vue";
+
 import type { Album } from "@/types";
 import { getAlbumArray } from "@/util/albumApi";
 
 const albumArray: Ref<Album[]> = ref([]);
 
-async function fetch() {
+async function fetchAlbumArray() {
   startLoading();
-  albumArray.value = await getAlbumArray();
-  stopLoading();
+  try {
+    albumArray.value = await getAlbumArray();
+    stopLoading();
+  } catch (error) {
+    console.log(error);
+    albumArray.value = [];
+    stopLoading();
+  }
 }
 
 // CreateAlbumModal.vue で定義したモーダル
 let createAlbumModal!: Modal;
-// CreateAlbumModal.vue で定義したモーダルを開く関数
-function openCreateAlbumModal() {
-  createAlbumModal.show();
-}
-// CreateAlbumModal.vue で定義したモーダルを閉じる関数
-function closeCreateAlbumModal() {
-  createAlbumModal.hide();
-}
+
+// DeleteAlbumModal.vue で定義したモーダル(画像削除確認モーダル)
+let deleteAlbumModal!: Modal;
 
 // DeleteAlbumModalに表示する情報
 const deleteTargetId: Ref<string> = ref("");
 const deleteTargetTitle: Ref<string> = ref("");
-// DeleteAlbumModal.vue で定義したモーダル(画像削除確認モーダル)
-let deleteAlbumModal!: Modal;
 
 // DeleteAlbumModal.vue で定義したモーダルを開く関数
 function openDeleteAlbumModal(id: string, title: string) {
@@ -43,13 +46,14 @@ function closeDeleteAlbumModal() {
   deleteAlbumModal.hide();
 }
 
-// LoadingModal.vue で定義したモーダルを開く関数
+// LoadingModal.vue で定義したモーダル
 let loadingModal!: Modal;
 
-// LoadingModal.vue で定義したモーダルを閉じる関数
+// LoadingModal.vue で定義したモーダルを開く関数
 function startLoading() {
   loadingModal.show();
 }
+// LoadingModal.vue で定義したモーダルを閉じる関数
 function stopLoading() {
   loadingModal.hide();
 }
@@ -71,19 +75,17 @@ onMounted(async () => {
   });
 
   // albumArrayを更新
-  await fetch();
+  await fetchAlbumArray();
 });
 </script>
 
 <template>
   <Layout
-    :id="ref(deleteTargetId)"
-    :title="ref(deleteTargetTitle)"
-    :startLoading="startLoading"
-    :stopLoading="stopLoading"
-    :openCreateAlbumModal="openCreateAlbumModal"
-    :closeCreateAlbumModal="closeCreateAlbumModal"
-    :closeDeleteAlbumModal="closeDeleteAlbumModal"
+    :openCreateAlbumModal="
+      () => {
+        createAlbumModal.show();
+      }
+    "
   >
     <AlbumCards
       :albumArray="albumArray"
@@ -91,6 +93,23 @@ onMounted(async () => {
       :startLoading="startLoading"
       :stopLoading="stopLoading"
     />
+    <CreateAlbumModal
+      :startLoading="startLoading"
+      :stopLoading="stopLoading"
+      :closeModal="
+        () => {
+          createAlbumModal.hide();
+        }
+      "
+    />
+    <DeleteAlbumModal
+      :id="ref(deleteTargetId)"
+      :title="ref(deleteTargetTitle)"
+      :startLoading="startLoading"
+      :stopLoading="stopLoading"
+      :closeModal="closeDeleteAlbumModal"
+    />
+    <LoadingModal />
   </Layout>
 </template>
 

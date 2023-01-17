@@ -6,8 +6,6 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-
-console.log(props.album.id);
 </script>
 <template>
   <div class="card">

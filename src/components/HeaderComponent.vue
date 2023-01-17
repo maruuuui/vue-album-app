@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { Modal } from "bootstrap";
-import { onMounted } from "vue";
 interface Props {
   openModal: () => void;
 }
