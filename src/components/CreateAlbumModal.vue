@@ -6,6 +6,7 @@ interface Props {
   startLoading: () => void;
   stopLoading: () => void;
   closeModal: () => void;
+  fetchAlbumArray: () => Promise<void>;
 }
 
 const props = defineProps<Props>();
@@ -46,6 +47,7 @@ async function post() {
       );
       props.stopLoading();
       props.closeModal();
+      await props.fetchAlbumArray();
     } catch (error) {
       console.log(error);
       props.stopLoading();

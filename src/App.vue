@@ -101,6 +101,7 @@ onMounted(async () => {
           createAlbumModal.hide();
         }
       "
+      :fetchAlbumArray="fetchAlbumArray"
     />
     <DeleteAlbumModal
       :id="ref(deleteTargetId)"
@@ -108,6 +109,7 @@ onMounted(async () => {
       :startLoading="startLoading"
       :stopLoading="stopLoading"
       :closeModal="closeDeleteAlbumModal"
+      :fetchAlbumArray="fetchAlbumArray"
     />
     <LoadingModal />
   </Layout>

@@ -8,6 +8,7 @@ interface Props {
   startLoading: () => void;
   stopLoading: () => void;
   closeModal: () => void;
+  fetchAlbumArray: () => Promise<void>;
 }
 
 const props = defineProps<Props>();
@@ -18,6 +19,7 @@ async function _deleteAlbum() {
     await deleteAlbum(props.id.value);
     props.closeModal();
     props.stopLoading();
+    await props.fetchAlbumArray();
   } catch (error) {
     console.log(error);
     props.stopLoading();
