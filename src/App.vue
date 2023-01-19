@@ -15,14 +15,18 @@ const albumArray: Ref<Album[]> = ref([]);
 
 async function fetchAlbumArray() {
   startLoading();
-  try {
-    albumArray.value = await getAlbumArray();
-    stopLoading();
-  } catch (error) {
-    console.log(error);
-    albumArray.value = [];
-    stopLoading();
-  }
+  const loadingModalElement = document.getElementById("loadingModal")!;
+
+  loadingModalElement.addEventListener("shown.bs.modal", async function () {
+    try {
+      albumArray.value = await getAlbumArray();
+      stopLoading();
+    } catch (error) {
+      console.log(error);
+      albumArray.value = [];
+      stopLoading();
+    }
+  });
 }
 
 // CreateAlbumModal.vue で定義したモーダル
