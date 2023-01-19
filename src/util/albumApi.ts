@@ -21,7 +21,7 @@ type GetAlbumArrayResponse = {
 export async function getAlbumArray() {
   try {
     const res = await axios.get<GetAlbumArrayResponse[]>(url);
-    if (res.status !== 200) {
+    if (res.status < 200 || res.status >= 400) {
       throw Error("Albumの取得に失敗しました");
     }
 
@@ -66,7 +66,7 @@ export async function createAlbum(
       },
       { headers: requestHeader }
     );
-    if (res.status !== 200) {
+    if (res.status < 200 || res.status >= 400) {
       throw Error("Albumの作成に失敗しました");
     }
 
@@ -81,7 +81,7 @@ export async function deleteAlbum(id: string) {
   console.log(`deleteAlbum id:${id}`);
   try {
     const res = await axios.delete(`${url}/${id}`, { headers: requestHeader });
-    if (res.status !== 200) {
+    if (res.status < 200 || res.status >= 400) {
       throw Error("Albumの削除に失敗しました");
     }
 
