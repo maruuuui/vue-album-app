@@ -11,9 +11,7 @@ const props = defineProps<Props>();
   <div class="card">
     <img :src="props.album.imagePath" class="card-img-top" alt="..." />
     <div class="card-body">
-      <h5 class="card-title">
-        id:{{ props.album.id }} title:{{ props.album.title }}
-      </h5>
+      <h5 class="card-title">{{ props.album.title }}</h5>
       <h6 class="card-subtitle mb-2 text-muted">
         登録日時:{{ props.album.createdAt }}
       </h6>
